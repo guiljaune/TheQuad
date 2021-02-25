@@ -74,7 +74,7 @@ while(True):
     pulsesCommand = angleToPulse.convert(FR_angles, FL_angles, BR_angles, BL_angles)
 
     #arduino.serialSend(pulsesCommand)#send serial command to arduino
-    #print(pulsesCommand)
+    #print(pulsesCommand)test
     print(BL_angles)
 
 
