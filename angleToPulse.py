@@ -12,19 +12,19 @@ def convert(FR_angles, FL_angles, BR_angles, BL_angles):
     # It might change for other servomotors.
     pulse = np.empty([12])
     #FR
-    pulse[0] = int(-10.822 * np.rad2deg(-FR_angles[0])) + 925
-    pulse[1] = int(-10.822 * np.rad2deg(FR_angles[1])) + 2350
-    pulse[2] = int(10.822 * (np.rad2deg(FR_angles[2]) + 90)) + 1000
+    pulse[0] = int(65/90 + np.rad2deg(BL_angles[0]) + 65)
+    pulse[1] = int(63.5/90 * np.rad2deg(BL_angles[1])) 
+    pulse[2] = int(45/90 * np.rad2deg(BL_angles[2]) + 55)
     #FL
-    pulse[3] = int(10.822 * np.rad2deg(FL_angles[0])) + 985
-    pulse[4] = int(10.822 * np.rad2deg(FL_angles[1])) + 600
-    pulse[5] = int(-10.822 * (np.rad2deg(FL_angles[2]) + 90)) + 1150
+    pulse[3] = int(65/90 + np.rad2deg(BL_angles[0]) + 65)
+    pulse[4] = int(63.5/90 * np.rad2deg(BL_angles[1])) 
+    pulse[5] = int(45/90 * np.rad2deg(BL_angles[2]) + 55)
     #BR
-    pulse[6] = int(10.822 * np.rad2deg(-BR_angles[0])) + 1025
-    pulse[7] = int(-10.822 * np.rad2deg(BR_angles[1])) + 2325
-    pulse[8] = int(10.822 * (np.rad2deg(BR_angles[2]) + 90)) + 1100
+    pulse[6] = int(65/90 + np.rad2deg(BL_angles[0]) + 65)
+    pulse[7] = int(63.5/90 * np.rad2deg(BL_angles[1])) 
+    pulse[8] = int(45/90 * np.rad2deg(BL_angles[2]) + 55)
     #BL
-    pulse[9] = int(-10.822 * np.rad2deg(BL_angles[0])) + 900
-    pulse[10] = int(10.822 * np.rad2deg(BL_angles[1])) + 710
-    pulse[11] = int(-10.822 * (np.rad2deg(BL_angles[2]) + 90)) + 1050
+    pulse[9] = int(65/90 * np.rad2deg(BL_angles[0]) + 65)
+    pulse[10] = int(63.5/90 * np.rad2deg(BL_angles[1])) 
+    pulse[11] = int(45/90 * np.rad2deg(BL_angles[2]) + 55)
     return pulse

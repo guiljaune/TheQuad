@@ -15,7 +15,7 @@ class ArduinoSerial:  #clase para la comunicacion con arduino mediante serial, s
     #en la primera ejecucion hay que abrir el puerto
     def __init__(self , port):
         #ls -l /dev | grep ACM to identify serial port of the arduino
-        self.arduino = serial.Serial(port, 500000, timeout = 1)
+        self.arduino = serial.Serial(port, 9600, timeout = 1)
         # Nota: provocamos un reseteo manual de la placa para leer desde
         # el principio
         self.arduino.setDTR(False)
@@ -34,7 +34,7 @@ class ArduinoSerial:  #clase para la comunicacion con arduino mediante serial, s
                                int(pulse[6]), int(pulse[7]), int(pulse[8]),
                                int(pulse[9]), int(pulse[10]), int(pulse[11]))
         self.arduino.write(bytes(command , encoding='utf8'))# Mandar un comando hacia Arduino
-        #        print(command)
+        print(command)
         self.lastTime = time.time()
 
     def serialRecive(self):

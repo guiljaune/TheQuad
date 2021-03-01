@@ -32,16 +32,16 @@ class robotKinematics:
                                      0 , np.pi/4 , -np.pi/2, 0 ])#FR
 
         """in meter """
-        self.L = 0.192 #length of robot joints
-        self.W = 0.075 #width of robot joints
+        self.L = 0.2 #length of robot joints
+        self.W = 0.12 #distanee between coxa
         self.coxa = 0.04#coxa length
         self.femur = 0.10#femur length
         self.tibia = 0.10#tibia length
         """initial foot position"""
         #foot separation (0.182 -> tetta=0) and distance to floor
-        self.Ydist = 0.11
         self.Xdist = self.L
-        self.height = 0.15
+        self.Ydist = self.W + self.coxa * 2
+        self.height = 0.2
         #body frame to coxa frame vector
         self.bodytoFR0 = np.array([ self.L/2, -self.W/2 , 0])
         self.bodytoFL0 = np.array([ self.L/2,  self.W/2 , 0])

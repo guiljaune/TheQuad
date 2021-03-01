@@ -33,19 +33,47 @@ def checkdomain(D):
 """
 #IK equations now written in pybullet frame.
 def solve_R(coord , coxa , femur , tibia):
-    D = (coord[1]**2+(-coord[2])**2-coxa**2+(-coord[0])**2-femur**2-tibia**2)/(2*tibia*femur)  #siempre <1
+    x4 = - coord[1]
+    y4 = coord[2]
+    z4 = - coord[0]
+    l1 = coxa
+    l2 = femur
+    l3 = tibia
+    D = (x4 ** 2 + y4 ** 2 - l1 ** 2 + z4 ** 2 - l2 ** 2 - l3 ** 2 ) / (2 * l2 * l3)
     D = checkdomain(D)
-    gamma = numpy.arctan2(-numpy.sqrt(1-D**2),D)
-    tetta = -numpy.arctan2(coord[2],coord[1])-numpy.arctan2(numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2),-coxa)
-    alpha = numpy.arctan2(-coord[0],numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2))-numpy.arctan2(tibia*numpy.sin(gamma),femur+tibia*numpy.cos(gamma))
-    angles = numpy.array([-tetta, alpha, gamma])
+    teta1 =  - numpy.arctan2(-y4, x4) - numpy.arctan2(numpy.sqrt( x4 ** 2 + y4 ** 2 - l1 ** 2), - l1) + numpy.pi
+    teta3 = numpy.arctan2(-numpy.sqrt(1 - D ** 2), D)
+    teta2 = numpy.arctan2(z4, numpy.sqrt(x4 ** 2 + y4 ** 2  - l1 ** 2)) - numpy.arctan2(l3 *numpy.sin(teta3), l2 + l3 * numpy.cos(teta3))
+    angles = numpy.array([teta1, teta2, teta3])
+
+    # D = (coord[1]**2+(-coord[2])**2-coxa**2+(-coord[0])**2-femur**2-tibia**2)/(2*tibia*femur)  #siempre <1
+    # D = checkdomain(D)
+    # gamma = numpy.arctan2(-numpy.sqrt(1-D**2),D)
+    # tetta = -numpy.arctan2(coord[2],coord[1])-numpy.arctan2(numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2),-coxa)
+    # alpha = numpy.arctan2(-coord[0],numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2))-numpy.arctan2(tibia*numpy.sin(gamma),femur+tibia*numpy.cos(gamma))
+    # angles = numpy.array([-tetta, alpha, gamma])
     return angles
 
 def solve_L(coord , coxa , femur , tibia):
-    D = (coord[1]**2+(-coord[2])**2-coxa**2+(-coord[0])**2-femur**2-tibia**2)/(2*tibia*femur)  #siempre <1
+    x4 = coord[1]
+    y4 = coord[2]
+    z4 = - coord[0]
+    l1 = coxa
+    l2 = femur
+    l3 = tibia
+    D = (x4 ** 2 + y4 ** 2 - l1 ** 2 + z4 ** 2 - l2 ** 2 - l3 ** 2 ) / (2 * l2 * l3)
     D = checkdomain(D)
-    gamma = numpy.arctan2(-numpy.sqrt(1-D**2),D)
-    tetta = -numpy.arctan2(coord[2],coord[1])-numpy.arctan2(numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2),coxa)
-    alpha = numpy.arctan2(-coord[0],numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2))-numpy.arctan2(tibia*numpy.sin(gamma),femur+tibia*numpy.cos(gamma))
-    angles = numpy.array([-tetta, alpha, gamma])
+    teta1 =  - numpy.arctan2(-y4, x4) - numpy.arctan2(numpy.sqrt( x4 ** 2 + y4 ** 2 - l1 ** 2), - l1) + numpy.pi
+    teta3 = numpy.arctan2(numpy.sqrt(1 - D ** 2), D)
+    teta2 = numpy.arctan2(z4, numpy.sqrt(x4 ** 2 + y4 ** 2  - l1 ** 2)) - numpy.arctan2(l3 *numpy.sin(teta3), l2 + l3 * numpy.cos(teta3))
+    angles = numpy.array([teta1, -teta2, teta3])
+
+
+    # D = (coord[1]**2+(-coord[2])**2-coxa**2+(-coord[0])**2-femur**2-tibia**2)/(2*tibia*femur)  #siempre <1
+    # D = checkdomain(D)
+    # gamma = numpy.arctan2(-numpy.sqrt(1-D**2),D)
+    # tetta = -numpy.arctan2(coord[2],coord[1])-numpy.arctan2(numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2),coxa)
+    # alpha = numpy.arctan2(-coord[0],numpy.sqrt(coord[1]**2+(-coord[2])**2-coxa**2))-numpy.arctan2(tibia*numpy.sin(gamma),femur+tibia*numpy.cos(gamma))
+    # angles = numpy.array([-tetta, alpha, gamma])
     return angles
+

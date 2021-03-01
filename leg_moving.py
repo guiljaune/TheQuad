@@ -20,7 +20,7 @@ from gaitPlanner import trotGait
 
 
 robotKinematics = robotKinematics()
-arduino = ArduinoSerial('COM3') #need to specify the serial port
+arduino = ArduinoSerial('COM6') #need to specify the serial port
 trot = trotGait()
 #robot properties
 """initial safe position"""
@@ -34,14 +34,14 @@ targetAngs = np.array([0 , np.pi/4 , -np.pi/2, 0 ,#BR
 
 "initial foot position"
 #foot separation (0.182 -> tetta=0) and distance to floor
-Ydist = 0.17
-Xdist = 0.25
-height = 0.17
+Ydist = 0.20
+Xdist = 0.2
+height = 0.15
 #body frame to foot frame vector
-bodytoFeet0 = np.matrix([[ 0.08 , -0.07 , -height],
-                         [ 0.08 ,  0.07 , -height],
-                         [-0.11 , -0.07 , -height],
-                         [-0.11 ,  0.07 , -height]])
+bodytoFeet0 = np.matrix([[ Xdist/2 , -Ydist/2 , -height],
+                         [ Xdist/2 ,  Ydist/2 , -height],
+                         [-Xdist/2 , -Ydist/2 , -height],
+                         [-Xdist/2 ,  Ydist/2 , -height]])
 
 orn = np.array([0, 0, 0])
 pos = np.array([0, 0, 0])
@@ -59,7 +59,8 @@ while(True):
     #commandCoM , V , angle , Wrot , T  , compliantMode , yaw , pitch  = joystick.read()
 
     #calculates the feet coord for gait, defining length of the step and direction (0º -> forward; 180º -> backward)
-    bodytoFeet = trot.loop(0.3, 0, 0, 1, offset, 0.05, 0.100, bodytoFeet0)
+    #bodytoFeet = trot.loop(L , angle , Lrot , T , offset , stepL, stepH, bodytoFeet0)
+    bodytoFeet = trot.loop(0, 0, 0, 1, offset, 0.05, 0.100, bodytoFeet0)
 
     #arduinoLoopTime , Xacc , Yacc , realRoll , realPitch = arduino.serialRecive()#recive serial message
 
@@ -71,11 +72,12 @@ while(True):
     #####   kinematics Model: Input body orientation, deviation and foot position    ####
     #####   and get the angles, neccesary to reach that position, for every joint    ####
     FR_angles, FL_angles, BR_angles, BL_angles , transformedBodytoFeet = robotKinematics.solve(orn, pos, bodytoFeet)
+    #print(FR_angles, FL_angles, BR_angles, BL_angles)
     pulsesCommand = angleToPulse.convert(FR_angles, FL_angles, BR_angles, BL_angles)
 
-    #arduino.serialSend(pulsesCommand)#send serial command to arduino
-    #print(pulsesCommand)test
-    print(BL_angles)
+    arduino.serialSend(pulsesCommand)#send serial command to arduino
+    print(pulsesCommand)
+    
 
 
     #print(time.time() - loopTime ,T)
