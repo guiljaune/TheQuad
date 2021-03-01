@@ -60,7 +60,7 @@ while(True):
 
     #calculates the feet coord for gait, defining length of the step and direction (0º -> forward; 180º -> backward)
     #bodytoFeet = trot.loop(L , angle , Lrot , T , offset , stepL, stepH, bodytoFeet0)
-    bodytoFeet = trot.loop(0, 0, 0, 1, offset, 0.05, 0.100, bodytoFeet0)
+    bodytoFeet = trot.loop(0.5, 0, 0, 2, offset, 0.05, 0, bodytoFeet0)
 
     #arduinoLoopTime , Xacc , Yacc , realRoll , realPitch = arduino.serialRecive()#recive serial message
 
