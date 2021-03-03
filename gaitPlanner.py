@@ -179,6 +179,7 @@ class trotGait:
         self.bodytoFeet[3,1] =  bodytoFeet_[3,1] + step_coord[1]
         self.bodytoFeet[3,2] =  bodytoFeet_[3,2] + step_coord[2]
         #
+        
 
 
         return self.bodytoFeet
@@ -203,10 +204,11 @@ if __name__ == "__main__":
     x_list = []
     y_list = []
     z_list = []
-    vitesse = 10
+    vitesse = 100
     direction =0
     cercle = 0
-    stepL = 0
+    stepL = 0.1
+    stepH = 0.05
 
     for p in range(100):
         t = (p+1) / 100
@@ -220,7 +222,7 @@ if __name__ == "__main__":
             x, y, z = trot.calculateStance(tStance, vitesse, direction, stepL)
         else:
             tSwing = (t-s_Offset)/(1-s_Offset)
-            x, y, z = trot.calculateBezier_swing(tSwing, vitesse, direction, stepL)
+            x, y, z = trot.calculateBezier_swing(tSwing, vitesse, direction, stepL, stepH)
 
         x_list.append(x)
         y_list.append(y)

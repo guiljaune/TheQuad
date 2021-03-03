@@ -13,15 +13,15 @@ import time
 import angleToPulse
 from kinematic_model import robotKinematics
 from serial_com import ArduinoSerial
-from gaitPlanner import trotGait
+from gaitplanner2 import trotGait2
 
 
 
 
 
 robotKinematics = robotKinematics()
-arduino = ArduinoSerial('COM6') #need to specify the serial port
-trot = trotGait()
+arduino = ArduinoSerial('COM3') #need to specify the serial port
+trot = trotGait2()
 #robot properties
 """initial safe position"""
 #angles
@@ -36,7 +36,7 @@ targetAngs = np.array([0 , np.pi/4 , -np.pi/2, 0 ,#BR
 #foot separation (0.182 -> tetta=0) and distance to floor
 Ydist = 0.20
 Xdist = 0.2
-height = 0.15
+height = 0.16
 #body frame to foot frame vector
 bodytoFeet0 = np.matrix([[ Xdist/2 , -Ydist/2 , -height],
                          [ Xdist/2 ,  Ydist/2 , -height],
@@ -60,9 +60,12 @@ while(True):
 
     #calculates the feet coord for gait, defining length of the step and direction (0º -> forward; 180º -> backward)
     #bodytoFeet = trot.loop(L , angle , Lrot , T , offset , stepL, stepH, bodytoFeet0)
-    bodytoFeet = trot.loop(0.5, 0, 0, 2, offset, 0.05, 0, bodytoFeet0)
+    bodytoFeet = trot.loop2(0.05, 0.5, offset, 0.04, bodytoFeet0)
+    #bodytoFeet = trot.loop2(0, 2, offset, 0, bodytoFeet0)
 
-    #arduinoLoopTime , Xacc , Yacc , realRoll , realPitch = arduino.serialRecive()#recive serial message
+
+
+    #arduinoLoopTime , Xacc , Yacc , realRoll , realPitch = arduino.serialRecive()#recive serial messages
 
     #pos[0] = pidX(realPitch)
     #pos[1] = pidY(realRoll)
@@ -76,6 +79,7 @@ while(True):
     pulsesCommand = angleToPulse.convert(FR_angles, FL_angles, BR_angles, BL_angles)
 
     arduino.serialSend(pulsesCommand)#send serial command to arduino
+    #time.sleep(0.050)
     print(pulsesCommand)
     
 

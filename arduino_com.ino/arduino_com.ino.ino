@@ -31,15 +31,15 @@ int pulse5 = 65;
 int pulse6 = 55;
 int pulse7 = 0;
 int pulse8 = 65;
-int pulse9 = 55;
-int pulse10 = 0;
-int pulse11 = 65;
+int pulse9 = 1200;
+int pulse10 = 1000;
+int pulse11 = 1718;
 
 
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(57600);
+  Serial.begin(9600);
   Serial1.begin(9600);
   //IMUSetup();
   connectServos();
@@ -56,7 +56,7 @@ void loop() {
       t = float(currentMillis) / 1000;
       /////////cuenta el tiempo que tarda el bucle en ejecutarse
       loopTime = currentMillis - previousLooptime;
-      Serial.print("<");
+      Serial1.print("<");
 //      Serial1.print(pulse0);
 //      Serial1.print("#");
 //      Serial.println();      
@@ -117,12 +117,12 @@ void moveServos(int pulse0, int pulse1, int pulse2, int pulse3, int pulse4, int 
 //  Servos[7].write(pulse7);
 //  Servos[8].write(pulse8);
 
-  Servos[9].write(pulse9);
-  Serial.print(pulse9);
-  Servos[10].write(pulse10);
-  Serial.print(pulse10);
-  Servos[11].write(pulse11);
-  Serial.print(pulse11);
+  Servos[9].writeMicroseconds(pulse9);
+  Serial1.print(pulse9);
+  Servos[10].writeMicroseconds(pulse10);
+  Serial1.print(pulse10);
+  Servos[11].writeMicroseconds(pulse11);
+  Serial1.print(pulse11);
 }
 
 
@@ -135,8 +135,8 @@ void recvWithStartEndMarkers() {
     
     char rc;
  
-    while (Serial1.available() > 0 && newData == false) {
-        rc = Serial1.read();
+    while (Serial.available() > 0 && newData == false) {
+        rc = Serial.read();
  //       Serial.print("serial In");
 //        Serial1.println(rc);
 //        Serial1.println(); 
