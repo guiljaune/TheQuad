@@ -81,7 +81,7 @@ while(True):
     arduino.serialSend(pulsesCommand)#send serial command to arduino
     #time.sleep(0.050)
     print(pulsesCommand)
-    #test_pi
+    #test_pi and from dell
 
 
     #print(time.time() - loopTime ,T)
