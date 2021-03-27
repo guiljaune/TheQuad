@@ -12,15 +12,20 @@ import time
 
 import angleToPulse
 from kinematic_model import robotKinematics
-from serial_com import ArduinoSerial
 from gaitplanner2 import trotGait2
 
 
+import Adafruit_PCA9685
 
+
+pwm = Adafruit_PCA9685.PCA9685()
+
+# Set frequency to 60hz, good for servos.
+pwm.set_pwm_freq(120)
 
 
 robotKinematics = robotKinematics()
-arduino = ArduinoSerial('COM3') #need to specify the serial port
+
 trot = trotGait2()
 #robot properties
 """initial safe position"""
@@ -36,7 +41,7 @@ targetAngs = np.array([0 , np.pi/4 , -np.pi/2, 0 ,#BR
 #foot separation (0.182 -> tetta=0) and distance to floor
 Ydist = 0.20
 Xdist = 0.2
-height = 0.16
+height = 0.14
 #body frame to foot frame vector
 bodytoFeet0 = np.matrix([[ Xdist/2 , -Ydist/2 , -height],
                          [ Xdist/2 ,  Ydist/2 , -height],
@@ -76,15 +81,18 @@ while(True):
     #####   and get the angles, neccesary to reach that position, for every joint    ####
     FR_angles, FL_angles, BR_angles, BL_angles , transformedBodytoFeet = robotKinematics.solve(orn, pos, bodytoFeet)
     #print(FR_angles, FL_angles, BR_angles, BL_angles)
-    pulsesCommand = angleToPulse.convert(FR_angles, FL_angles, BR_angles, BL_angles)
+    pulses = angleToPulse.convert(FR_angles, FL_angles, BR_angles, BL_angles)
+    pwm.set_pwm(9, 0, int(pulses[9]))
+    pwm.set_pwm(10, 0, int(pulses[10]))
+    pwm.set_pwm(11, 0, int(pulses[11]))
 
-    arduino.serialSend(pulsesCommand)#send serial command to arduino
+    
     #time.sleep(0.050)
-    print(pulsesCommand)
+    #print(pulses)
     #test_pi and from dell
 
 
-    #print(time.time() - loopTime ,T)
+    print(time.time() - loopTime ,T)
 
 
 

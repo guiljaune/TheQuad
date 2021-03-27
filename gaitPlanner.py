@@ -204,10 +204,10 @@ if __name__ == "__main__":
     x_list = []
     y_list = []
     z_list = []
-    vitesse = 100
+    vitesse = 0.05
     direction =0
     cercle = 0
-    stepL = 0.1
+    stepL = 0.05
     stepH = 0.05
 
     for p in range(100):
