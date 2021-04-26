@@ -36,7 +36,7 @@ class robotKinematics:
         self.W = 0.12 #distanee between coxa
         self.coxa = 0.04#coxa length
         self.femur = 0.10#femur length
-        self.tibia = 0.10#tibia length
+        self.tibia = 0.107#tibia length
         """initial foot position"""
         #foot separation (0.182 -> tetta=0) and distance to floor
         self.Xdist = self.L

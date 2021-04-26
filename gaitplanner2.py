@@ -37,7 +37,7 @@ class trotGait2:
     def calculateStance2(self , phi_st , V):#phi_st between [0,1), angle in degrees
         p_stance = (1-2*phi_st)
 
-        stanceX = -p_stance*np.abs(V)
+        stanceX = -p_stance*np.abs(V)+0.02
         stanceY = 0 #-p_stance*np.abs(V)
         stanceZ = 0
 
@@ -93,6 +93,7 @@ class trotGait2:
     def stepTrajectory2(self , phi , V , stepH, centerToFoot): #phi belong [0,1), angles in degrees
         if (phi >= 1):
             phi = phi - 1.
+        
 
         stepOffset = 0.5
         if phi <= stepOffset: #stance phase
@@ -122,11 +123,11 @@ class trotGait2:
         if (self.phi >= 0.99):
             self.lastTime= time.time()
         self.phi = (time.time()-self.lastTime)/T
-        # print(self.phi)
+        print(self.phi)
         #now it calculates step trajectory for every foot
         step_coord = self.stepTrajectory2(self.phi + offset[0] , V , stepH, np.squeeze(np.asarray(bodytoFeet_[0,:]))) #FR
-        self.bodytoFeet[0,0] =  bodytoFeet_[0,0] + step_coord[0]
-        self.bodytoFeet[0,1] =  bodytoFeet_[0,1] + step_coord[1]
+        self.bodytoFeet[0,0] =  bodytoFeet_[0,0] - step_coord[0]
+        self.bodytoFeet[0,1] =  bodytoFeet_[0,1] - step_coord[1]
         self.bodytoFeet[0,2] =  bodytoFeet_[0,2] + step_coord[2]
 
         step_coord = self.stepTrajectory2(self.phi + offset[1] , V , stepH, np.squeeze(np.asarray(bodytoFeet_[1,:])))#FL
@@ -135,8 +136,8 @@ class trotGait2:
         self.bodytoFeet[1,2] =  bodytoFeet_[1,2] + step_coord[2]
 
         step_coord = self.stepTrajectory2(self.phi + offset[2] , V , stepH, np.squeeze(np.asarray(bodytoFeet_[2,:])))#BR
-        self.bodytoFeet[2,0] =  bodytoFeet_[2,0] + step_coord[0]
-        self.bodytoFeet[2,1] =  bodytoFeet_[2,1] + step_coord[1]
+        self.bodytoFeet[2,0] =  bodytoFeet_[2,0] - step_coord[0]
+        self.bodytoFeet[2,1] =  bodytoFeet_[2,1] - step_coord[1]
         self.bodytoFeet[2,2] =  bodytoFeet_[2,2] + step_coord[2]
 
         step_coord = self.stepTrajectory2(self.phi + offset[3] , V , stepH, np.squeeze(np.asarray(bodytoFeet_[3,:])))#BL
