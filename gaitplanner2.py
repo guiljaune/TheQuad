@@ -37,7 +37,7 @@ class trotGait2:
     def calculateStance2(self , phi_st , V):#phi_st between [0,1), angle in degrees
         p_stance = (1-2*phi_st)
 
-        stanceX = -p_stance*np.abs(V)+0.02
+        stanceX = -p_stance*np.abs(V)+0.04
         stanceY = 0 #-p_stance*np.abs(V)
         stanceZ = 0
 
@@ -55,7 +55,7 @@ class trotGait2:
                                   0.07 ,
                                   0.07 ,
                                   0.06 ,
-                                  0.05 ])
+                                  0.05 ])+0.03
     
         Y = 0 * np.abs(V) * np.array([ 0.05 ,
                                    0.06 ,
